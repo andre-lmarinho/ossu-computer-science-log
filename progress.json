@@ -1,0 +1,117 @@
+{
+  "lessons": {
+    "circuitos-digitais/001": {
+      "status": "watched",
+      "sessions": [
+        {
+          "start": "2026-07-05T19:30:00-03:00",
+          "end": "2026-07-05T20:45:00-03:00"
+        }
+      ],
+      "seconds": 4500,
+      "updated_at": "2026-07-06T15:18:10-03:00"
+    },
+    "circuitos-digitais/002": {
+      "status": "watched",
+      "sessions": [
+        {
+          "start": "2026-07-05T19:30:00-03:00",
+          "end": "2026-07-05T20:15:00-03:00"
+        }
+      ],
+      "seconds": 2700,
+      "updated_at": "2026-07-05T20:15:00-03:00"
+    },
+    "circuitos-digitais/003": {
+      "status": "watched",
+      "sessions": [
+        {
+          "start": "2026-07-05T21:20:00-03:00",
+          "end": "2026-07-05T21:32:00-03:00"
+        }
+      ],
+      "seconds": 720,
+      "updated_at": "2026-07-05T21:32:00-03:00"
+    },
+    "circuitos-digitais/004": {
+      "status": "watched",
+      "sessions": [
+        {
+          "start": "2026-07-05T21:35:55-03:00",
+          "end": "2026-07-05T21:42:49-03:00"
+        }
+      ],
+      "seconds": 414,
+      "updated_at": "2026-07-05T21:42:49-03:00"
+    },
+    "circuitos-digitais/005": {
+      "status": "watched",
+      "sessions": [
+        {
+          "start": "2026-07-05T21:43:05-03:00",
+          "end": "2026-07-05T21:55:19-03:00"
+        }
+      ],
+      "seconds": 734,
+      "updated_at": "2026-07-05T21:55:19-03:00"
+    },
+    "circuitos-digitais/006": {
+      "status": "watched",
+      "sessions": [
+        {
+          "start": "2026-07-05T21:55:30-03:00",
+          "end": "2026-07-05T22:06:00-03:00"
+        }
+      ],
+      "seconds": 630,
+      "updated_at": "2026-07-05T22:06:00-03:00"
+    },
+    "circuitos-digitais/007": {
+      "status": "watched",
+      "sessions": [
+        {
+          "start": "2026-07-05T22:06:16-03:00",
+          "end": "2026-07-05T22:16:50-03:00"
+        }
+      ],
+      "seconds": 634,
+      "updated_at": "2026-07-05T22:16:50-03:00"
+    },
+    "circuitos-digitais/008": {
+      "status": "watched",
+      "sessions": [
+        {
+          "start": "2026-07-05T22:27:00-03:00",
+          "end": "2026-07-05T22:32:56-03:00"
+        }
+      ],
+      "seconds": 356,
+      "updated_at": "2026-07-05T22:32:56-03:00"
+    },
+    "circuitos-digitais/009": {
+      "status": "watched",
+      "sessions": [
+        {
+          "start": "2026-07-05T23:13:51-03:00",
+          "end": "2026-07-05T23:25:36-03:00"
+        }
+      ],
+      "seconds": 705,
+      "updated_at": "2026-07-05T23:25:36-03:00"
+    }
+  },
+  "courses": {
+    "intro-cc-python-i": {
+      "completed": true,
+      "completed_at": "2026-07-06T15:01:45-03:00"
+    },
+    "intro-cc-python-ii": {
+      "completed": true,
+      "completed_at": "2026-07-06T15:05:19-03:00"
+    },
+    "lab-poo-i": {
+      "completed": true,
+      "completed_at": "2026-07-06T15:05:25-03:00"
+    }
+  }
+}
