@@ -18,9 +18,8 @@ python3 serve.py     # abre http://127.0.0.1:8765  (Ctrl+C para sair)
 
 > Se aparecer "porta 8765 ocupada", já tem um servidor rodando — feche com `fuser -k 8765/tcp`.
 
-O app (`serve.py`) não tem dependências. Só **reconstruir a grade** (`seed.py`) precisa do
-[`yt-dlp`](https://github.com/yt-dlp/yt-dlp) (`pip install --user yt-dlp`) para importar as
-playlists — de qualquer tamanho.
+O servidor normal não tem dependências. Só **reconstruir a grade** (`seed.py`) precisa
+do [`yt-dlp`](https://github.com/yt-dlp/yt-dlp) (`pip install --user yt-dlp`).
 
 ## O fluxo
 
@@ -82,7 +81,7 @@ Um curso no `curriculum.json`:
   "prereqs": ["geometria-analitica"],
   "source_url": "https://www.youtube.com/watch?v=...",
   "playlist_url": "https://www.youtube.com/playlist?list=...",
-  "lessons": [ { "id": "001", "title": "...", "url": "..." } ]
+  "lessons": [ { "id": "001", "title": "...", "url": "...", "duration_seconds": 1012 } ]
 }
 ```
 

@@ -16,6 +16,7 @@ Fonte da verdade (sem dependencias externas):
 
 Tempo automatico: enquanto assiste, o navegador manda um heartbeat a cada
 15s que estende a sessao aberta; fechou a aba, o tempo gravado e o real.
+Progressão por etapa: duração das aulas concluídas versus carga total.
 """
 import os, re, json, html, sys, datetime
 from http.server import BaseHTTPRequestHandler, HTTPServer
@@ -54,21 +55,27 @@ def now():
 
 
 def fetch_playlist(url):
-    """(video_id, título) de TODA a playlist do YouTube, via yt-dlp."""
+    """(video_id, título, duração) de TODA a playlist do YouTube, via yt-dlp."""
     import yt_dlp
     opts = {"quiet": True, "no_warnings": True, "extract_flat": "in_playlist", "skip_download": True}
     with yt_dlp.YoutubeDL(opts) as ydl:
         info = ydl.extract_info(url, download=False)
-    return [(en["id"], en.get("title") or en["id"])
-            for en in (info.get("entries") or []) if en.get("id")]
+    return [(en["id"], en["title"], int(en["duration"]))
+            for en in (info.get("entries") or [])
+            if en.get("id") and en.get("title") and en.get("duration")]
 
 
 # ---- time model ---------------------------------------------------------
 
+def parse_time(s):
+    try:
+        return datetime.datetime.fromisoformat(s) if s else None
+    except ValueError:
+        return None
+
 def dur(s):
-    if s.get("start") and s.get("end"):
-        a = datetime.datetime.fromisoformat(s["start"])
-        b = datetime.datetime.fromisoformat(s["end"])
+    a, b = parse_time(s.get("start")), parse_time(s.get("end"))
+    if a and b:
         return max(0, (b - a).total_seconds())  # relogio pra tras nao vira negativo
     return 0
 
@@ -89,6 +96,46 @@ def fmt(secs):
     secs = int(secs)
     h, m = secs // 3600, secs % 3600 // 60
     return f"{h}h {m:02d}m" if h else f"{m}m" if m else f"{secs}s"
+
+
+def add_days(days, a, b):
+    if not a or not b or b <= a:
+        return
+    while a.date() < b.date():
+        midnight = datetime.datetime.combine(a.date() + datetime.timedelta(days=1),
+                                             datetime.time.min, a.tzinfo)
+        days[a.date().isoformat()] = days.get(a.date().isoformat(), 0) + int((midnight - a).total_seconds())
+        a = midnight
+    days[a.date().isoformat()] = days.get(a.date().isoformat(), 0) + int((b - a).total_seconds())
+
+
+def time_by_day(prog):
+    days = {}
+    for ent in prog.get("lessons", {}).values():
+        for s in ent.get("sessions", []):
+            add_days(days, parse_time(s.get("start")), parse_time(s.get("end")))
+    return days
+
+
+def course_load(course):
+    return sum(int(l.get("duration_seconds") or 0) for l in course["lessons"])
+
+
+def stage_progress(cur, prog):
+    rows = []
+    for st in sorted({c.get("stage", 0) for c in cur["courses"]}):
+        total = watched = missing = external = 0
+        for c in [x for x in cur["courses"] if x.get("stage") == st]:
+            external += int(not c["lessons"])
+            total += course_load(c)
+            for l in c["lessons"]:
+                missing += int(not l.get("duration_seconds"))
+                if prog["lessons"].get(f'{c["id"]}/{l["id"]}', {}).get("status") == "watched":
+                    watched += int(l.get("duration_seconds") or 0)
+        pct = int(min(watched, total) / total * 100) if total else 0
+        rows.append({"stage": st, "total": total, "watched": watched,
+                     "pct": pct, "missing": missing, "external": external})
+    return rows
 
 
 # ---- catalog / progresso de curso ---------------------------------------
@@ -195,6 +242,18 @@ h1{font-size:1.4rem;margin:.2rem 0} h2{font-size:1rem;color:#9aa;margin:1.4rem 0
 .grow{flex:1} .muted{color:#7d8590;font-size:.85rem}
 .bar{height:5px;background:#2a2f36;border-radius:9px;overflow:hidden;margin-top:.35rem;max-width:320px}
 .bar>span{display:block;height:100%;background:#1a7f37}
+.panel{border:1px solid #2a2f36;border-radius:8px;margin:1rem 0;padding:.8rem;background:#11151b}
+.panel h2{margin-top:0}.panel h3{font-size:.85rem;color:#9aa;margin:.8rem 0 .45rem}
+.stats,.metrics{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:.7rem}
+.stat{border:1px solid #21262d;border-radius:8px;padding:.55rem .65rem;background:#0d1117}
+.stat span{color:#7d8590;font-size:.78rem}.stat b{display:block;font-size:1.25rem;font-variant-numeric:tabular-nums}
+.metrics{margin-top:.8rem}
+.meter{display:grid;grid-template-columns:5.4rem 1fr 4.6rem;gap:.5rem;align-items:center;font-size:.88rem;margin:.3rem 0}
+.meter .bar{max-width:none;margin:0}.meter b{text-align:right;font-weight:500;font-variant-numeric:tabular-nums}
+.stagebox{border:1px solid #2a2f36;border-radius:8px;padding:.55rem .7rem;margin:.35rem 0 .7rem;background:#11151b}
+.stagebox .stats{grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:.5rem}
+.stagebox .stat{padding:.4rem .5rem}.stagebox .stat b{font-size:1rem}
+.pct{display:grid;grid-template-columns:1fr 3rem;gap:.5rem;align-items:center;margin-top:.5rem}.pct .bar{max-width:none;margin:0}
 .ic{width:1.2rem;text-align:center;font-weight:700}
 .ic.watched{color:#3fb950} .ic.watching{color:#f0b429} .ic.paused{color:#d29922} .ic.todo{color:#565f6a}
 .prov,.cat{font-size:.65rem;padding:.05rem .45rem;border-radius:99px;margin-left:.3rem;vertical-align:middle}
@@ -248,13 +307,68 @@ def cat_badge(c):
 
 # ---- views --------------------------------------------------------------
 
+def meter(label, secs, top):
+    w = int(secs / max(top, 1) * 100) if secs else 0
+    return (f'<div class="meter"><span>{e(label)}</span><div class="bar">'
+            f'<span style="width:{w}%"></span></div><b>{fmt(secs)}</b></div>')
+
+
+def render_time_panel(prog):
+    today = datetime.date.today()
+    days = time_by_day(prog)
+    week = [today - datetime.timedelta(days=i) for i in range(6, -1, -1)]
+    week_vals = [(d, days.get(d.isoformat(), 0)) for d in week]
+    names = ["seg", "ter", "qua", "qui", "sex", "sab", "dom"]
+
+    week_total = sum(secs for _, secs in week_vals)
+    total = sum(days.values())
+    week_top = max([secs for _, secs in week_vals] + [1])
+    week_rows = "".join(meter(f"{names[d.weekday()]} {d:%d/%m}", secs, week_top) for d, secs in week_vals)
+
+    return (
+        '<section class="panel"><h2>Tempo assistido</h2>'
+        '<div class="stats">'
+        f'<div class="stat"><span>hoje</span><b>{fmt(days.get(today.isoformat(), 0))}</b></div>'
+        f'<div class="stat"><span>últimos 7 dias</span><b>{fmt(week_total)}</b></div>'
+        f'<div class="stat"><span>total registrado</span><b>{fmt(total)}</b></div>'
+        '</div><div class="metrics">'
+        f'<div><h3>Últimos 7 dias</h3>{week_rows}</div>'
+        '</div></section>'
+    )
+
+
+def render_stage_header(row):
+    note = ""
+    if row["missing"] or row["external"]:
+        parts = []
+        if row["missing"]:
+            noun = "aula sem duração" if row["missing"] == 1 else "aulas sem duração"
+            parts.append(f'{row["missing"]} {noun}')
+        if row["external"]:
+            noun = "curso externo" if row["external"] == 1 else "cursos externos"
+            parts.append(f'{row["external"]} {noun}')
+        note = f'<div class="muted">{", ".join(parts)} fora do total.</div>'
+    return (
+        f'<h2>{row["stage"]}ª Etapa</h2>'
+        '<div class="stagebox"><div class="stats">'
+        f'<div class="stat"><span>carga</span><b>{fmt(row["total"])}</b></div>'
+        f'<div class="stat"><span>assistido</span><b>{fmt(row["watched"])}</b></div>'
+        f'<div class="stat"><span>progresso</span><b>{row["pct"]}%</b></div>'
+        '</div><div class="pct"><div class="bar">'
+        f'<span style="width:{row["pct"]}%"></span></div><b>{row["pct"]}%</b></div>'
+        f'{note}</div>'
+    )
+
+
 def course_card(cur, prog, c):
     cid = c["id"]
     total = len(c["lessons"])
     done = watched_count(cur, prog, cid)
+    load = course_load(c)
     missing = missing_prereqs(cur, prog, c)
     complete = is_complete(cur, prog, cid)
     right = ""
+    load_txt = f'<div class="muted">carga {fmt(load)}</div>' if load else ""
     if complete:
         state = '<span class="tag ok">✓ concluído</span>'
     elif missing:
@@ -271,17 +385,19 @@ def course_card(cur, prog, c):
     cls = "card locked" if (missing and not complete) else "card"
     return (f'<div class="{cls}"><div class="grow">'
             f'<a href="/course/{e(cid)}"><b>{e(c["title"])}</b></a>{prov_badge(c)}{cat_badge(c)}'
-            f'<div>{state}</div></div>{right}</div>')
+            f'{load_txt}<div>{state}</div></div>{right}</div>')
 
 
 def render_home(cur, prog):
     mand = [c for c in cur["courses"] if c.get("category") != "eletiva"]
     done = sum(1 for c in mand if is_complete(cur, prog, c["id"]))
     body = ['<h1>🎓 OSSU-br — Ciência da Computação</h1>',
-            f'<div class="muted">{done}/{len(mand)} cursos obrigatórios concluídos</div>']
+            f'<div class="muted">{done}/{len(mand)} cursos obrigatórios concluídos</div>',
+            render_time_panel(prog)]
     # obrigatórias e eletivas juntas na mesma etapa (obrigatórias primeiro)
+    stages = {r["stage"]: r for r in stage_progress(cur, prog)}
     for st in sorted({c.get("stage", 0) for c in cur["courses"]}):
-        body.append(f'<h2>{st}ª Etapa</h2>')
+        body.append(render_stage_header(stages[st]))
         stage_courses = [x for x in cur["courses"] if x.get("stage") == st]
         for c in sorted(stage_courses, key=lambda x: x.get("category") == "eletiva"):
             body.append(course_card(cur, prog, c))
@@ -521,12 +637,17 @@ def test():
     assert ent["seconds"] == 1800
     assert times(ent) == ("2026-01-01T10:00:00", "2026-01-01T11:10:00")
     assert dur({"start": "2026-01-01T10:00:00", "end": "2026-01-01T09:00:00"}) == 0
+    days = {}
+    add_days(days, parse_time("2026-01-01T23:50:00-03:00"),
+             parse_time("2026-01-02T00:10:00-03:00"))
+    assert days == {"2026-01-01": 600, "2026-01-02": 600}
 
     # conclusão + pré-requisitos (soft-lock)
     cur = {"courses": [
         {"id": "geo", "title": "Geo", "stage": 1, "prereqs": [],
          "lessons": [{"id": "001", "title": "a"}, {"id": "002", "title": "b"}]},
-        {"id": "calc", "title": "Cálculo", "stage": 2, "prereqs": ["geo"], "lessons": []},
+        {"id": "calc", "title": "Cálculo", "stage": 2, "prereqs": ["geo"],
+         "lessons": [{"id": "001", "title": "c"}]},
         {"id": "poo", "title": "POO", "stage": 2, "prereqs": [], "lessons": []},  # coursera, sem aulas
     ]}
     prog = {"lessons": {"geo/001": {"status": "watched"}}, "courses": {}}
@@ -538,12 +659,22 @@ def test():
     assert not is_complete(cur, prog, "poo")           # sem aulas, sem manual
     prog["courses"]["poo"] = {"completed": True}
     assert is_complete(cur, prog, "poo")               # manual
+    rows = stage_progress({"courses": [{"id": "geo", "stage": 1, "lessons": [
+        {"id": "001", "duration_seconds": 3300},
+        {"id": "002", "duration_seconds": 2700},
+    ]}]}, {"lessons": {"geo/001": {"status": "watched", "sessions": [
+        {"start": "2026-01-01T10:00:00", "end": "2026-01-01T10:10:00"}
+    ]}}})
+    assert rows[0]["total"] == 6000
+    assert rows[0]["watched"] == 3300 and rows[0]["pct"] == 55
     print("ok")
 
 
 if __name__ == "__main__":
     if len(sys.argv) > 1 and sys.argv[1] == "test":
         test()
+    elif len(sys.argv) > 1:
+        sys.exit("uso: python3 serve.py [test]")
     else:
         try:
             srv = HTTPServer(("127.0.0.1", 8765), Handler)

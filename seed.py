@@ -160,8 +160,9 @@ def main():
             tag = ""
             try:
                 lessons = [{"id": f"{i:03d}", "title": t,
-                            "url": f"https://www.youtube.com/watch?v={vid}"}
-                           for i, (vid, t) in enumerate(serve.fetch_playlist(pl), 1)]
+                            "url": f"https://www.youtube.com/watch?v={vid}",
+                            "duration_seconds": secs}
+                           for i, (vid, t, secs) in enumerate(serve.fetch_playlist(pl), 1)]
                 if not lessons:
                     fails.append((cid, "0 vídeos"))
             except Exception as ex:
