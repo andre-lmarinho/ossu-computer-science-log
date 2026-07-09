@@ -4,9 +4,9 @@ Um painel local para **acompanhar, registrar e cronometrar** a grade de Ciência
 Computação do [OSSU-br / Universidade Livre](https://github.com/ossu/computer-science-br).
 
 A grade completa (**35 cursos obrigatórios em 7 etapas + 4 eletivas**, com o DAG de
-pré-requisitos) já vem pronta. Entro, escolho a aula, abre o **modo foco** (timer +
-notas), e ao terminar o app grava minhas anotações num `.md` com a tag completa da
-aula — notas + horários + link.
+pré-requisitos) já vem pronta e o progresso começa zerado. Você escolhe a aula, abre o
+**modo foco** (timer + notas), e ao terminar o app grava suas anotações num `.md` com a
+tag completa da aula — notas + horários + link.
 
 ## Como rodar
 
@@ -21,6 +21,10 @@ python3 serve.py     # abre http://127.0.0.1:8765  (Ctrl+C para sair)
 O servidor normal não tem dependências. Só **reconstruir a grade** (`seed.py`) precisa
 do [`yt-dlp`](https://github.com/yt-dlp/yt-dlp) (`pip install --user yt-dlp`).
 
+O repositório vem como um template limpo: `progress.json` não tem aulas assistidas e
+`courses/` começa sem registros de aula. Os arquivos de anotação são criados conforme
+você assiste e conclui aulas.
+
 ## O fluxo
 
 ```
@@ -28,7 +32,7 @@ Home (a grade)              Curso                       Assistindo (modo foco)
 ┌────────────────────┐      ┌────────────────────┐      ┌──────────────────────────┐
 │ 1ª Etapa           │      │ Cálculo I  YouTube │      │ ⏱ 0h 12m 04s [🔗][⏸][✓]  │
 │  Circuitos ▓▓░ ✓   │ ──▶  │ 🔒 requer: Geo…    │ ──▶  │ ─────────────────────────│
-│  Cálculo I 🔒 requer│      │ ○ 001 · Aula 1     │      │  Minhas anotações...      │
+│  Cálculo I 🔒 requer│      │ ○ 001 · Aula 1     │      │  Suas anotações...        │
 │  …                 │      │ ▶ 002 · Aula 2     │      │  ______________________   │
 │ Eletivas           │      │ [✓ marcar concluído]│     │        [✓ Terminar aula]  │
 └────────────────────┘      └────────────────────┘      └──────────────────────────┘
@@ -68,7 +72,7 @@ Sem banco de dados: tudo em arquivos de texto versionáveis.
 |---|---|
 | [`curriculum.json`](curriculum.json) | **Grade** — cursos com etapa, provider, categoria, pré-requisitos e aulas. |
 | [`progress.json`](progress.json) | **Rastreio** — `{lessons: {...}, courses: {...}}`: status/sessões por aula + conclusões manuais. |
-| `courses/<curso>/<aula>.md` | **Registro da aula** — tag (frontmatter) + suas anotações. |
+| `courses/<curso>/<aula>.md` | **Registro da aula** — criado automaticamente com tag (frontmatter) + suas anotações. |
 | [`serve.py`](serve.py) | O app inteiro: servidor `http.server` da stdlib. |
 | [`seed.py`](seed.py) | Monta a grade em `curriculum.json` e importa as playlists (roda uma vez). |
 
@@ -90,15 +94,15 @@ Cada `.md` é auto-contido — a tag completa da aula mais as notas:
 ```markdown
 ---
 course: "Circuitos Digitais"
-lesson: "[CIRCUITOS DIGITAIS] Aula 03 - Sistemas de Numeração (Parte 2)"
-source_url: "https://www.youtube.com/watch?v=MhaGPACGIEs&list=...&index=3"
-started_at: "2026-07-05T21:20:00-03:00"
-finished_at: "2026-07-05T21:32:00-03:00"
-seconds: 720
+lesson: "[CIRCUITOS DIGITAIS] Aula 01 - Introdução aos Circuitos Digitais"
+source_url: "https://www.youtube.com/watch?v=...&list=...&index=1"
+started_at: "2026-01-01T10:00:00-03:00"
+finished_at: "2026-01-01T10:20:00-03:00"
+seconds: 1200
 status: "watched"
 ---
 
-# Aula 03 - Sistemas de Numeração (Parte 2)
+# Aula 01 - Introdução aos Circuitos Digitais
 
 ## Conceitos principais
 - ...
