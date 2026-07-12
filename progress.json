@@ -229,17 +229,6 @@
       "seconds": 724,
       "updated_at": "2026-07-08T19:24:21-03:00"
     },
-    "linguagens-de-programacao/004": {
-      "status": "watching",
-      "sessions": [
-        {
-          "start": "2026-07-08T19:14:22-03:00",
-          "end": "2026-07-08T19:14:22-03:00"
-        }
-      ],
-      "seconds": 0,
-      "updated_at": "2026-07-08T19:14:22-03:00"
-    },
     "circuitos-digitais/017": {
       "status": "watched",
       "sessions": [
@@ -295,6 +284,212 @@
       ],
       "seconds": 947,
       "updated_at": "2026-07-08T21:00:09-03:00"
+    },
+    "circuitos-digitais/021": {
+      "status": "watched",
+      "sessions": [
+        {
+          "start": "2026-07-10T15:20:59-03:00",
+          "end": "2026-07-10T15:25:28-03:00"
+        }
+      ],
+      "seconds": 269,
+      "updated_at": "2026-07-10T15:25:28-03:00"
+    },
+    "circuitos-digitais/022": {
+      "status": "watched",
+      "sessions": [
+        {
+          "start": "2026-07-10T15:25:31-03:00",
+          "end": "2026-07-10T15:33:17-03:00"
+        }
+      ],
+      "seconds": 466,
+      "updated_at": "2026-07-10T15:33:17-03:00"
+    },
+    "circuitos-digitais/023": {
+      "status": "watched",
+      "sessions": [
+        {
+          "start": "2026-07-10T15:33:22-03:00",
+          "end": "2026-07-10T15:41:09-03:00"
+        }
+      ],
+      "seconds": 467,
+      "updated_at": "2026-07-10T15:41:09-03:00"
+    },
+    "circuitos-digitais/024": {
+      "status": "watched",
+      "sessions": [
+        {
+          "start": "2026-07-10T15:41:14-03:00",
+          "end": "2026-07-10T15:49:14-03:00"
+        }
+      ],
+      "seconds": 480,
+      "updated_at": "2026-07-10T15:49:14-03:00"
+    },
+    "circuitos-digitais/025": {
+      "status": "watched",
+      "sessions": [
+        {
+          "start": "2026-07-10T15:49:23-03:00",
+          "end": "2026-07-10T15:59:16-03:00"
+        }
+      ],
+      "seconds": 593,
+      "updated_at": "2026-07-10T15:59:16-03:00"
+    },
+    "linguagens-de-programacao/004": {
+      "status": "watched",
+      "sessions": [
+        {
+          "start": "2026-07-10T16:22:47-03:00",
+          "end": "2026-07-10T16:27:21-03:00"
+        },
+        {
+          "start": "2026-07-10T17:07:39-03:00",
+          "end": "2026-07-10T17:08:06-03:00"
+        },
+        {
+          "start": "2026-07-10T17:18:07-03:00",
+          "end": "2026-07-10T17:37:16-03:00"
+        }
+      ],
+      "seconds": 1450,
+      "updated_at": "2026-07-10T17:37:16-03:00"
+    },
+    "circuitos-digitais/026": {
+      "status": "watched",
+      "sessions": [
+        {
+          "start": "2026-07-10T18:18:20-03:00",
+          "end": "2026-07-10T18:24:45-03:00"
+        }
+      ],
+      "seconds": 385,
+      "updated_at": "2026-07-10T18:24:45-03:00"
+    },
+    "circuitos-digitais/027": {
+      "status": "watched",
+      "sessions": [
+        {
+          "start": "2026-07-10T18:24:49-03:00",
+          "end": "2026-07-10T18:37:22-03:00"
+        }
+      ],
+      "seconds": 753,
+      "updated_at": "2026-07-10T18:37:22-03:00"
+    },
+    "circuitos-digitais/028": {
+      "status": "watched",
+      "sessions": [
+        {
+          "start": "2026-07-10T20:32:35-03:00",
+          "end": "2026-07-10T20:43:38-03:00"
+        }
+      ],
+      "seconds": 663,
+      "updated_at": "2026-07-10T20:43:38-03:00"
+    },
+    "circuitos-digitais/029": {
+      "status": "watched",
+      "sessions": [
+        {
+          "start": "2026-07-11T20:14:25-03:00",
+          "end": "2026-07-11T20:18:49-03:00"
+        }
+      ],
+      "seconds": 264,
+      "updated_at": "2026-07-11T20:18:49-03:00"
+    },
+    "circuitos-digitais/030": {
+      "status": "watched",
+      "sessions": [
+        {
+          "start": "2026-07-11T20:18:52-03:00",
+          "end": "2026-07-11T20:21:48-03:00"
+        }
+      ],
+      "seconds": 176,
+      "updated_at": "2026-07-11T20:21:48-03:00"
+    },
+    "circuitos-digitais/031": {
+      "status": "watched",
+      "sessions": [
+        {
+          "start": "2026-07-11T20:21:51-03:00",
+          "end": "2026-07-11T20:28:25-03:00"
+        }
+      ],
+      "seconds": 394,
+      "updated_at": "2026-07-11T20:28:25-03:00"
+    },
+    "circuitos-digitais/032": {
+      "status": "watched",
+      "sessions": [
+        {
+          "start": "2026-07-11T20:28:28-03:00",
+          "end": "2026-07-11T20:40:36-03:00"
+        }
+      ],
+      "seconds": 728,
+      "updated_at": "2026-07-11T20:40:36-03:00"
+    },
+    "circuitos-digitais/033": {
+      "status": "watched",
+      "sessions": [
+        {
+          "start": "2026-07-11T20:40:41-03:00",
+          "end": "2026-07-11T20:48:34-03:00"
+        }
+      ],
+      "seconds": 473,
+      "updated_at": "2026-07-11T20:48:34-03:00"
+    },
+    "circuitos-digitais/034": {
+      "status": "watched",
+      "sessions": [
+        {
+          "start": "2026-07-11T21:45:45-03:00",
+          "end": "2026-07-11T22:02:58-03:00"
+        }
+      ],
+      "seconds": 1033,
+      "updated_at": "2026-07-11T22:04:05-03:00"
+    },
+    "circuitos-digitais/035": {
+      "status": "watched",
+      "sessions": [
+        {
+          "start": "2026-07-11T22:05:57-03:00",
+          "end": "2026-07-11T22:16:24-03:00"
+        }
+      ],
+      "seconds": 627,
+      "updated_at": "2026-07-11T22:16:24-03:00"
+    },
+    "circuitos-digitais/036": {
+      "status": "watched",
+      "sessions": [
+        {
+          "start": "2026-07-11T22:43:56-03:00",
+          "end": "2026-07-11T22:53:51-03:00"
+        }
+      ],
+      "seconds": 595,
+      "updated_at": "2026-07-11T22:53:51-03:00"
+    },
+    "circuitos-digitais/037": {
+      "status": "watched",
+      "sessions": [
+        {
+          "start": "2026-07-11T22:54:38-03:00",
+          "end": "2026-07-11T23:09:42-03:00"
+        }
+      ],
+      "seconds": 904,
+      "updated_at": "2026-07-11T23:09:42-03:00"
     }
   },
   "courses": {
