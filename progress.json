@@ -490,6 +490,110 @@
       ],
       "seconds": 904,
       "updated_at": "2026-07-11T23:09:42-03:00"
+    },
+    "circuitos-digitais/038": {
+      "status": "watched",
+      "sessions": [
+        {
+          "start": "2026-07-13T19:34:43-03:00",
+          "end": "2026-07-13T19:42:51-03:00"
+        }
+      ],
+      "seconds": 488,
+      "updated_at": "2026-07-13T19:42:51-03:00"
+    },
+    "circuitos-digitais/039": {
+      "status": "watched",
+      "sessions": [
+        {
+          "start": "2026-07-13T19:42:56-03:00",
+          "end": "2026-07-13T19:48:02-03:00"
+        },
+        {
+          "start": "2026-07-13T19:57:05-03:00",
+          "end": "2026-07-13T20:05:07-03:00"
+        }
+      ],
+      "seconds": 788,
+      "updated_at": "2026-07-13T20:05:07-03:00"
+    },
+    "circuitos-digitais/040": {
+      "status": "watched",
+      "sessions": [
+        {
+          "start": "2026-07-13T20:05:12-03:00",
+          "end": "2026-07-13T20:14:06-03:00"
+        }
+      ],
+      "seconds": 534,
+      "updated_at": "2026-07-13T20:14:06-03:00"
+    },
+    "circuitos-digitais/041": {
+      "status": "watched",
+      "sessions": [
+        {
+          "start": "2026-07-13T20:14:12-03:00",
+          "end": "2026-07-13T20:29:29-03:00"
+        },
+        {
+          "start": "2026-07-13T20:31:33-03:00",
+          "end": "2026-07-13T20:31:39-03:00"
+        }
+      ],
+      "seconds": 923,
+      "updated_at": "2026-07-13T20:40:15-03:00"
+    },
+    "circuitos-digitais/042": {
+      "status": "watched",
+      "sessions": [
+        {
+          "start": "2026-07-13T20:57:26-03:00",
+          "end": "2026-07-13T21:12:05-03:00"
+        }
+      ],
+      "seconds": 879,
+      "updated_at": "2026-07-13T21:12:05-03:00"
+    },
+    "circuitos-digitais/043": {
+      "status": "watched",
+      "sessions": [
+        {
+          "start": "2026-07-13T21:12:33-03:00",
+          "end": "2026-07-13T21:18:07-03:00"
+        },
+        {
+          "start": "2026-07-13T21:20:03-03:00",
+          "end": "2026-07-13T21:22:05-03:00"
+        },
+        {
+          "start": "2026-07-13T21:27:09-03:00",
+          "end": "2026-07-13T21:36:33-03:00"
+        }
+      ],
+      "seconds": 1020,
+      "updated_at": "2026-07-13T21:40:53-03:00"
+    },
+    "linguagens-de-programacao/005": {
+      "status": "watched",
+      "sessions": [
+        {
+          "start": "2026-07-13T21:41:25-03:00",
+          "end": "2026-07-13T22:51:45-03:00"
+        }
+      ],
+      "seconds": 4220,
+      "updated_at": "2026-07-13T22:51:45-03:00"
+    },
+    "linguagens-de-programacao/006": {
+      "status": "paused",
+      "sessions": [
+        {
+          "start": "2026-07-13T22:51:48-03:00",
+          "end": "2026-07-13T22:51:49-03:00"
+        }
+      ],
+      "seconds": 1,
+      "updated_at": "2026-07-13T22:51:49-03:00"
     }
   },
   "courses": {
