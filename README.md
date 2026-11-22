@@ -1,25 +1,27 @@
 # OSSU-br — Log de Aulas
 
-Um painel local para **acompanhar, registrar e cronometrar** a grade de Ciência da
-Computação do [OSSU-br / Universidade Livre](https://github.com/ossu/computer-science-br).
+Este painel local acompanha a grade de Ciência da Computação do
+[OSSU-br](https://github.com/ossu/computer-science-br).
+
+O app usa a cópia local da grade em `curriculum.json`. Ele não sincroniza esse arquivo
+com o repositório OSSU-br.
+
+## Início rápido
+
+O servidor usa Python 3 e apenas módulos da biblioteca padrão:
+
+```bash
+python3 serve.py
+```
+
+Abra <http://127.0.0.1:8765>. Use `Ctrl+C` no terminal para sair.
 
 A grade completa (**35 cursos obrigatórios em 7 etapas + 4 eletivas**, com o DAG de
 pré-requisitos) já vem pronta e o progresso começa zerado. Você escolhe a aula, abre o
 **modo foco** (timer + notas), e ao terminar o app grava suas anotações num `.md` com a
 tag completa da aula — notas + horários + link.
 
-## Como rodar
-
-Precisa só de **Python 3.8+** (nada além da biblioteca padrão):
-
-```bash
-python3 serve.py     # abre http://127.0.0.1:8765  (Ctrl+C para sair)
-```
-
 > Se aparecer "porta 8765 ocupada", já tem um servidor rodando — feche com `fuser -k 8765/tcp`.
-
-O servidor normal não tem dependências. Só **reconstruir a grade** (`seed.py`) precisa
-do [`yt-dlp`](https://github.com/yt-dlp/yt-dlp) (`pip install --user yt-dlp`).
 
 O repositório vem como um template limpo: `progress.json` não tem aulas assistidas e
 `courses/` começa sem registros de aula. Os arquivos de anotação são criados conforme
@@ -66,7 +68,8 @@ persiste a sessão. Se você fechar a aba ou esquecer de parar, o tempo gravado 
 
 ## Estrutura dos dados
 
-Sem banco de dados: tudo em arquivos de texto versionáveis.
+O servidor escuta apenas em `127.0.0.1`. Não usa banco de dados nem sincroniza os dados.
+O progresso e as anotações ficam nos arquivos locais abaixo, dentro do diretório do app.
 
 | Arquivo | Papel |
 |---|---|
@@ -113,6 +116,7 @@ status: "watched"
 O `seed.py` (re)monta `curriculum.json` a partir da definição da grade. Ele **preserva
 as aulas de cursos que você já começou** (ids/ordem congelados) e **nunca apaga
 progresso**; só reimporta as playlists dos cursos ainda não iniciados.
+Esse passo requer [`yt-dlp`](https://github.com/yt-dlp/yt-dlp) (`pip install --user yt-dlp`).
 
 ```bash
 python3 seed.py
